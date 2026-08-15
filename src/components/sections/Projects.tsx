@@ -10,14 +10,14 @@ export function Projects() {
 
   return (
     <section id="projects" className="py-24 border-t border-border">
-      <div className="max-w-5xl mx-auto px-6 ">
+      <div className="max-w-5xl mx-auto px-6  gap-10">
         <SectionHeading
           eyebrow="projects/"
           title="Featured Projects"
           description="A selection of what I've been building."
         />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+        <div className="grid sm:grid-cols-2 gap-8 mb-10">
           {featured.map((project) => (
             <ProjectCard key={project.title} project={project} />
           ))}

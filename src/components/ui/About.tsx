@@ -9,9 +9,9 @@ export function About() {
         <div className="max-w-2xl space-y-5 text-text-muted leading-relaxed">
           <p>{profile.intro}</p>
           <p>
-            My primary direction is Java on the backend — Spring Boot, REST APIs, and PostgreSQL — paired with a
-            React / Next.js frontend when a project needs a full-stack build. I care more about shipping something
-            that works cleanly end-to-end than collecting tools for their own sake.
+            I started with frontend development and have built projects using React, TypeScript, and modern web technologies. Currently, I’m expanding into Java backend development, learning Java, Spring Boot, REST APIs, SQL, and database-driven application development.
+
+I learn by building projects and solving problems, while strengthening my DSA and core CS fundamentals. My goal is to grow into a strong backend/full-stack engineer and contribute to real-world software.
           </p>
         </div>
       </div>

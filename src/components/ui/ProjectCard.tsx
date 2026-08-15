@@ -27,23 +27,37 @@ export function ProjectCard({ project }: { project: Project }) {
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="group flex flex-col rounded-md border  border-border bg-surface overflow-hidden hover:border-accent transition-colors duration-200"
+      className="group flex flex-col rounded-md border border-border  bg-surface overflow-hidden hover:border-accent transition-colors duration-200"
     >
-      <div className="relative h-40 flex items-center px-5  border-b border-border overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.35]  pointer-events-none"
-          style={{
-            backgroundImage:
-              'linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
-          }}
-        />
+      {/* Project Image */}
+      <div className="relative h-48 border-b border-border overflow-hidden bg-surface">
+        {project.image ? (
+          <img
+            src={project.image}
+            alt={`${project.title} preview`}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="relative h-full flex items-center px-5">
+            <div
+              className="absolute inset-0 opacity-[0.35] pointer-events-none"
+              style={{
+                backgroundImage:
+                  'linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)',
+                backgroundSize: '24px 24px',
+              }}
+            />
 
-        <p className="relative font-mono text-xs text-text-muted">
-          <span className="text-accent">~/</span>projects/{slug}
-        </p>
+            <p className="relative font-mono text-xs text-text-muted">
+              <span className="text-accent">~/</span>
+              projects/{slug}
+            </p>
+          </div>
+        )}
       </div>
 
+      {/* Project Content */}
       <div className="flex flex-col flex-1 p-6">
         <h3 className="font-display text-lg font-semibold text-text mb-2">
           {project.title}
@@ -53,6 +67,7 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.description}
         </p>
 
+        {/* Technologies */}
         <div className="flex flex-wrap gap-2 mb-6">
           {project.technologies.map((tech) => (
             <span
@@ -64,6 +79,7 @@ export function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
+        {/* Links */}
         <div className="flex items-center gap-4 pt-4 border-t border-border">
           {project.repoUrl ? (
             <a

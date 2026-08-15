@@ -1,7 +1,8 @@
 import { ArrowUpRight, Mail } from 'lucide-react'
-import { siGithub, siLinkerd } from 'simple-icons'
+import { siGithub } from 'simple-icons'
 import { Button } from '@/components/ui/Button'
 import { profile } from '@/data/profile'
+import linkedinIcon from '@/assets/icons/linkedin.svg'
 
 function BrandIcon({
   path,
@@ -35,7 +36,7 @@ export function Contact() {
       type: 'linkedin',
       label: 'LinkedIn',
       href: profile.social.linkedin,
-      path: siLinkerd.path,
+      path: null,
     },
     profile.social.github && {
       type: 'github',
@@ -58,12 +59,14 @@ export function Contact() {
         </p>
 
         <h2 className="font-display text-3xl sm:text-5xl font-semibold text-text tracking-tight mb-6 max-w-2xl mx-auto">
-          Let's build something remarkable.
+          Open to SDE opportunities.
         </h2>
 
-        <p className="text-text-muted max-w-md mx-auto mb-10">
-          Open to backend and full-stack opportunities. Reach out directly —
-          no forms, no scheduling tools.
+        <p className="text-text-muted max-w-md mx-auto mb-10 leading-relaxed">
+          Currently open to SDE, Software Engineer, Backend Developer, and
+          Full-Stack Developer opportunities. I’m especially interested in
+          Java and Spring Boot roles where I can build real-world software
+          and grow as an engineer.
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
@@ -99,6 +102,12 @@ export function Contact() {
             >
               {type === 'email' ? (
                 <Mail size={18} />
+              ) : type === 'linkedin' ? (
+                <img
+                  src={linkedinIcon}
+                  alt="LinkedIn"
+                  className="w-[18px] h-[18px] object-contain"
+                />
               ) : (
                 <BrandIcon path={path!} size={18} />
               )}

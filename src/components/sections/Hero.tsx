@@ -4,7 +4,7 @@ import { siGithub } from 'simple-icons'
 import { Button } from '@/components/ui/Button'
 import { profile } from '@/data/profile'
 import profileImage from '@/assets/images/profile.jpg'
-import linkedinIcon from '@/assets/icons/linkedin.png'
+import linkedinIcon from '@/assets/icons/linkedin.svg'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
