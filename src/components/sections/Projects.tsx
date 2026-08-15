@@ -10,7 +10,7 @@ export function Projects() {
 
   return (
     <section id="projects" className="py-24 border-t border-border">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6 ">
         <SectionHeading
           eyebrow="projects/"
           title="Featured Projects"

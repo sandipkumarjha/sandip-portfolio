@@ -27,11 +27,11 @@ export function ProjectCard({ project }: { project: Project }) {
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="group flex flex-col rounded-md border border-border bg-surface overflow-hidden hover:border-accent transition-colors duration-200"
+      className="group flex flex-col rounded-md border  border-border bg-surface overflow-hidden hover:border-accent transition-colors duration-200"
     >
-      <div className="relative h-40 flex items-center px-5 border-b border-border overflow-hidden">
+      <div className="relative h-40 flex items-center px-5  border-b border-border overflow-hidden">
         <div
-          className="absolute inset-0 opacity-[0.35] pointer-events-none"
+          className="absolute inset-0 opacity-[0.35]  pointer-events-none"
           style={{
             backgroundImage:
               'linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)',
