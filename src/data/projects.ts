@@ -44,7 +44,7 @@ export const projects: Project[] = [
       'Axios',
     ],
     repoUrl: 'https://github.com/sandipkumarjha/MovieApp',
-    liveUrl: 'https://movie-app-sze4.vercel.app',
+    liveUrl: 'https://movie-app-aiap.vercel.app/',
     image: movieAppImage,
     featured: true,
   },
