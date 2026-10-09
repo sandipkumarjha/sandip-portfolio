@@ -3,107 +3,201 @@
 @theme {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
 
-  --font-display: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ================================
-   Theme Variables
+   Theme tokens
    ================================ */
 
 :root,
 [data-theme="dark"] {
-  --bg: #0a0e14;
-  --surface: #10141c;
-  --border: #1d232f;
-  --text: #e7ecf2;
-  --text-muted: #8a93a6;
-  --accent: #4c7eff;
-  --accent-soft: rgba(76, 126, 255, 0.12);
+  --bg: #09090b;
+  --surface: #0f0f12;
+  --surface-2: #151519;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #f2f2f0;
+  --text-muted: #9a9aa3;
+  --text-faint: #5c5c66;
+  --accent: #d2ab6b;
+  --accent-soft: rgba(210, 171, 107, 0.12);
+  --noise-opacity: 0.045;
+  color-scheme: dark;
 }
 
 [data-theme="light"] {
-  --bg: #f7f8fa;
+  --bg: #f7f6f2;
   --surface: #ffffff;
-  --border: #e4e7ec;
-  --text: #10141c;
-  --text-muted: #5b6472;
-  --accent: #2f5fe0;
-  --accent-soft: rgba(47, 95, 224, 0.08);
+  --surface-2: #f0eee8;
+  --border: rgba(17, 17, 20, 0.08);
+  --border-strong: rgba(17, 17, 20, 0.18);
+  --text: #121214;
+  --text-muted: #62626b;
+  --text-faint: #a0a0a8;
+  --accent: #9a7332;
+  --accent-soft: rgba(154, 115, 50, 0.1);
+  --noise-opacity: 0.03;
+  color-scheme: light;
 }
 
 /* ================================
-   Base Styles
+   Base
    ================================ */
 
-html {
-  scroll-behavior: smooth;
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
 
-  background-color: var(--bg);
-  color: var(--text);
+  * {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
 
-  font-family: var(--font-body);
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
-}
+  ::selection {
+    background-color: var(--accent);
+    color: var(--bg);
+  }
 
-* {
-  box-sizing: border-box;
-  border-color: var(--border);
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
 /* ================================
-   Links
+   Grain overlay
    ================================ */
 
-a {
-  color: inherit;
-  text-decoration: none;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
 }
 
 /* ================================
-   Selection
+   Utilities
    ================================ */
 
-::selection {
-  background-color: var(--accent-soft);
-  color: var(--text);
+@utility container-x {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+  @media (min-width: 640px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@utility serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-strong), var(--border) 60%, transparent);
+}
+
+@utility link-underline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 }
 
 /* ================================
-   Focus
+   Marquee
    ================================ */
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 2px;
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
 }
 
 /* ================================
-   Reduced Motion
+   Reduced motion
    ================================ */
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-
   *,
   *::before,
   *::after {

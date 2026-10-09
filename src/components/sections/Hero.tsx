@@ -1,220 +1,156 @@
-import { motion } from 'framer-motion'
-import { ArrowUpRight, Mail } from 'lucide-react'
-import { siGithub } from 'simple-icons'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
+import { SocialLinks } from '@/components/ui/SocialLinks'
 import { profile } from '@/data/profile'
+import { technologies } from '@/data/technologies'
 import profileImage from '@/assets/images/profile.jpg'
-import linkedinIcon from '@/assets/icons/linkedin.svg'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0 },
-}
+const ease = [0.16, 1, 0.3, 1] as const
 
-function BrandIcon({
-  path,
-  size = 18,
-}: {
-  path: string
-  size?: number
-}) {
+function Word({ children, delay }: { children: string; delay: number }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
+    <motion.span
+      initial={{ y: '0.6em', opacity: 0, filter: 'blur(6px)' }}
+      animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+      transition={{ duration: 1, delay, ease }}
+      className="inline-block"
     >
-      <path d={path} />
-    </svg>
+      {children}
+    </motion.span>
   )
 }
 
 export function Hero() {
-  const socials = [
-    profile.social.github && {
-      type: 'github',
-      href: profile.social.github,
-      label: 'GitHub',
-      path: siGithub.path,
-    },
-
-    profile.social.linkedin && {
-      type: 'linkedin',
-      href: profile.social.linkedin,
-      label: 'LinkedIn',
-      path: null,
-    },
-
-    profile.social.email && {
-      type: 'email',
-      href: `mailto:${profile.social.email}`,
-      label: 'Email',
-      path: null,
-    },
-  ].filter(Boolean) as {
-    type: string
-    href: string
-    label: string
-    path: string | null
-  }[]
+  const reduce = useReducedMotion()
+  const leadWords = profile.headline.lead.split(' ')
+  const ticker = Array.from(new Set(technologies.map((t) => t.name)))
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
-      {/* Background grid */}
+    <section id="top" className="relative min-h-[100svh] flex flex-col pt-28 sm:pt-36 overflow-hidden">
+      {/* ambient light */}
       <div
-        className="absolute inset-0 opacity-[0.25] pointer-events-none"
+        aria-hidden
+        className="absolute -top-40 right-[-10%] w-[640px] h-[640px] rounded-full pointer-events-none"
         style={{
-          backgroundImage:
-            'linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-          maskImage:
-            'radial-gradient(ellipse at 50% 30%, black 10%, transparent 70%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse at 50% 30%, black 10%, transparent 70%)',
+          background:
+            'radial-gradient(closest-side, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)',
+          filter: 'blur(40px)',
         }}
       />
 
-      {/* Main Hero Container */}
-      <motion.div
-        initial="hidden"
-        animate="show"
-        transition={{
-          staggerChildren: 0.08,
-          delayChildren: 0.1,
-        }}
-        className="relative max-w-5xl mx-auto px-6 w-full grid md:grid-cols-2 gap-12 lg:gap-16 items-center"
-      >
-        {/* LEFT CONTENT */}
+      <div className="container-x relative flex-1 grid lg:grid-cols-[1.35fr_0.65fr] gap-12 lg:gap-20 items-center">
         <div>
           <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-6 font-mono text-xs text-text-muted border border-border rounded-full px-3 py-1"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease, delay: 0.1 }}
+            className="inline-flex items-center gap-2.5 mb-8 rounded-full border border-border bg-surface/60 backdrop-blur px-3.5 py-1.5"
           >
             <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-70" />
               <span className="relative inline-flex rounded-full h-full w-full bg-accent" />
             </span>
-
-            {profile.status}
+            <span className="eyebrow !text-text">{profile.status}</span>
           </motion.div>
 
-          <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="font-mono text-sm text-accent mb-3"
-          >
-            // developer
-          </motion.p>
-
-          <motion.h1
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="font-display text-5xl sm:text-6xl md:text-7xl font-semibold text-text tracking-tight leading-[1.05] mb-4"
-          >
-            {profile.name}
-          </motion.h1>
-
-          <motion.h2
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="font-display text-xl sm:text-2xl text-text-muted mb-6 max-w-2xl"
-          >
-            {profile.role}
-          </motion.h2>
+          <h1 className="font-display font-semibold tracking-[-0.035em] leading-[1.02] text-[2.6rem] sm:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] mb-8 max-w-[12ch]">
+            {reduce ? (
+              <>
+                {profile.headline.lead}{' '}
+                <span className="serif-italic text-accent">{profile.headline.emphasis}</span>
+              </>
+            ) : (
+              <>
+                {leadWords.map((w, i) => (
+                  <span key={w + i}>
+                    <Word delay={0.15 + i * 0.07}>{w}</Word>{' '}
+                  </span>
+                ))}
+                <br className="hidden sm:block" />
+                <span className="serif-italic text-accent">
+                  <Word delay={0.15 + leadWords.length * 0.07}>{profile.headline.emphasis}</Word>
+                </span>
+              </>
+            )}
+          </h1>
 
           <motion.p
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="text-base text-text-muted max-w-xl mb-10 leading-relaxed"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease, delay: 0.55 }}
+            className="text-text-muted text-base sm:text-lg leading-relaxed max-w-xl mb-10"
           >
-            {profile.intro}
+            <span className="text-text font-medium">{profile.name}</span> · {profile.role}.{' '}
+            {profile.intro.replace(/^I’m Sandip Kumar Jha, /, 'An ')}
           </motion.p>
 
           <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap items-center gap-4 mb-12"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease, delay: 0.7 }}
+            className="flex flex-wrap items-center gap-3"
           >
-            <Button
-              href="#projects"
-              icon={<ArrowUpRight size={16} />}
-            >
-              View Projects
+            <Button href="#work" arrow>
+              See the work
             </Button>
-
-            <Button
-              href={profile.resumeUrl}
-              variant="outline"
-              external
-            >
+            <Button href={profile.resumeUrl} variant="outline" external>
               Resume
             </Button>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div
-            variants={fadeUp}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-5"
-          >
-            {socials.map(({ type, href, label, path }) => (
-              <a
-                key={label}
-                href={href}
-                target={
-                  href.startsWith('http') ? '_blank' : undefined
-                }
-                rel={
-                  href.startsWith('http') ? 'noreferrer' : undefined
-                }
-                aria-label={label}
-                className="text-text-muted hover:text-accent transition-colors duration-200"
-              >
-                {type === 'email' ? (
-                  <Mail size={18} />
-                ) : type === 'linkedin' ? (
-                  <img
-                    src={linkedinIcon}
-                    alt="LinkedIn"
-                    width={18}
-                    height={18}
-                    className="opacity-80 hover:opacity-100 transition-opacity"
-                  />
-                ) : (
-                  <BrandIcon path={path!} size={18} />
-                )}
-              </a>
-            ))}
+            <SocialLinks className="sm:ml-3" />
           </motion.div>
         </div>
 
-        {/* RIGHT PHOTO */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, x: 20 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{
-            duration: 0.7,
-            delay: 0.25,
-          }}
-          className="flex justify-center md:justify-end"
+          initial={{ opacity: 0, scale: 0.96, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1.2, ease, delay: 0.35 }}
+          className="relative justify-self-center lg:justify-self-end w-full max-w-[320px] lg:max-w-[360px]"
         >
-          <div className="relative">
-            {/* Blue glow */}
-            <div className="absolute -inset-6 rounded-3xl bg-accent/10 blur-3xl" />
-
-            {/* Image */}
-            <div className="relative overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
-              <img
-                src={profileImage}
-                alt="Sandip Kumar Jha"
-                className="w-64 h-80 sm:w-72 sm:h-88 md:w-80 md:h-[420px] object-cover"
-              />
+          <div className="relative aspect-[4/5] rounded-[28px] overflow-hidden border border-border bg-surface">
+            <img
+              src={profileImage}
+              alt={profile.name}
+              className="w-full h-full object-cover saturate-[0.85] contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-5 flex items-end justify-between">
+              <div>
+                <p className="font-display text-sm font-semibold text-white">{profile.name}</p>
+                <p className="font-mono text-[11px] text-white/70">{profile.location}</p>
+              </div>
+              <span className="font-mono text-[11px] text-white/70">’24 → ’27</span>
             </div>
           </div>
+
+          {/* corner marks */}
+          <span aria-hidden className="absolute -top-2 -left-2 w-4 h-4 border-t border-l border-text-faint" />
+          <span aria-hidden className="absolute -bottom-2 -right-2 w-4 h-4 border-b border-r border-text-faint" />
         </motion.div>
+      </div>
+
+      {/* ticker */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1 }}
+        className="marquee relative mt-16 sm:mt-20 border-y border-border py-4 overflow-hidden"
+        style={{
+          maskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)',
+          WebkitMaskImage: 'linear-gradient(90deg, transparent, black 12%, black 88%, transparent)',
+        }}
+      >
+        <div className="marquee-track">
+          {[0, 1].map((n) => (
+            <div key={n} className="flex items-center" aria-hidden={n === 1}>
+              {ticker.map((name) => (
+                <span key={name + n} className="flex items-center gap-6 px-6 eyebrow whitespace-nowrap">
+                  {name}
+                  <span className="w-1 h-1 rounded-full bg-text-faint" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
       </motion.div>
     </section>
   )
