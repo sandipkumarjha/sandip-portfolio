@@ -1,15 +1,28 @@
+import { Reveal } from './Reveal'
+
 interface SectionHeadingProps {
+  index: string
   eyebrow: string
   title: string
   description?: string
 }
 
-export function SectionHeading({ eyebrow, title, description }: SectionHeadingProps) {
+export function SectionHeading({ index, eyebrow, title, description }: SectionHeadingProps) {
   return (
-    <div className="mb-12 max-w-xl">
-      <p className="font-mono text-sm text-accent mb-3">// {eyebrow}</p>
-      <h2 className="font-display text-3xl sm:text-4xl font-semibold text-text tracking-tight mb-3">{title}</h2>
-      {description && <p className="text-text-muted leading-relaxed">{description}</p>}
-    </div>
+    <Reveal className="mb-14 sm:mb-20">
+      <div className="flex items-center gap-4 mb-6">
+        <span className="font-mono text-xs text-accent tabular-nums">{index}</span>
+        <span className="hairline flex-1" />
+        <span className="eyebrow">{eyebrow}</span>
+      </div>
+      <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-[-0.03em] leading-[1.02] max-w-3xl">
+        {title}
+      </h2>
+      {description && (
+        <p className="mt-5 text-text-muted text-base sm:text-lg leading-relaxed max-w-xl">
+          {description}
+        </p>
+      )}
+    </Reveal>
   )
 }

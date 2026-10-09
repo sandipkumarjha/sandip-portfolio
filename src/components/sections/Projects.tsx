@@ -1,7 +1,7 @@
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ProjectCard } from '@/components/ui/ProjectCard'
 import { Button } from '@/components/ui/Button'
-import { ArrowUpRight } from 'lucide-react'
+import { Reveal } from '@/components/ui/Reveal'
 import { projects } from '@/data/projects'
 import { profile } from '@/data/profile'
 
@@ -9,23 +9,27 @@ export function Projects() {
   const featured = projects.filter((p) => p.featured)
 
   return (
-    <section id="projects" className="py-24 border-t border-border">
-      <div className="max-w-5xl mx-auto px-6  gap-10">
+    <section id="work" className="py-28 sm:py-36 border-t border-border">
+      <div className="container-x">
         <SectionHeading
-          eyebrow="projects/"
-          title="Featured Projects"
-          description="A selection of what I've been building."
+          index="03"
+          eyebrow="Selected work"
+          title="Things I’ve built."
+          description="A selection of what I've been building, with the code open on GitHub."
         />
 
-        <div className="grid sm:grid-cols-2 gap-8 mb-10">
-          {featured.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+        <ul className="space-y-24 sm:space-y-32">
+          {featured.map((project, i) => (
+            <ProjectCard key={project.title} project={project} index={i} />
           ))}
-        </div>
+        </ul>
 
-        <Button href={profile.social.github} variant="outline" icon={<ArrowUpRight size={16} />} external>
-          View All Projects
-        </Button>
+        <Reveal className="mt-20 flex items-center gap-6">
+          <span className="hairline flex-1" />
+          <Button href={profile.social.github} variant="outline" arrow external>
+            More on GitHub
+          </Button>
+        </Reveal>
       </div>
     </section>
   )

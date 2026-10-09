@@ -7,21 +7,21 @@ import { TechStack } from '@/components/ui/Techstack'
 import { GitHubActivity } from '@/components/sections/GitHubActivity'
 import { Projects } from '@/components/sections/Projects'
 import { Education } from '@/components/sections/Education'
-import { CurrentLearning } from '@/components/sections/CurrentLearning'
 import { Contact } from '@/components/sections/Contact'
 
 function App() {
   return (
     <ThemeProvider>
       <Navbar />
-      <Hero />
-      <About />
-      <TechStack />
-      <GitHubActivity />
-      <Projects />
-      <Education />
-      <CurrentLearning />
-      <Contact />
+      <main>
+        <Hero />
+        <About />
+        <TechStack />
+        <GitHubActivity />
+        <Projects />
+        <Education />
+        <Contact />
+      </main>
       <Footer />
     </ThemeProvider>
   )
