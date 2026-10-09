@@ -1,119 +1,57 @@
-import { ArrowUpRight, Mail } from 'lucide-react'
-import { siGithub } from 'simple-icons'
+import { ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { Reveal } from '@/components/ui/Reveal'
+import { SocialLinks } from '@/components/ui/SocialLinks'
 import { profile } from '@/data/profile'
-import linkedinIcon from '@/assets/icons/linkedin.svg'
-
-function BrandIcon({
-  path,
-  size = 18,
-}: {
-  path: string
-  size?: number
-}) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d={path} />
-    </svg>
-  )
-}
 
 export function Contact() {
-  const links = [
-    profile.social.email && {
-      type: 'email',
-      label: 'Email',
-      href: `mailto:${profile.social.email}`,
-      path: null,
-    },
-    profile.social.linkedin && {
-      type: 'linkedin',
-      label: 'LinkedIn',
-      href: profile.social.linkedin,
-      path: null,
-    },
-    profile.social.github && {
-      type: 'github',
-      label: 'GitHub',
-      href: profile.social.github,
-      path: siGithub.path,
-    },
-  ].filter(Boolean) as {
-    type: 'email' | 'linkedin' | 'github'
-    label: string
-    href: string
-    path: string | null
-  }[]
-
   return (
-    <section id="contact" className="py-28 border-t border-border">
-      <div className="max-w-5xl mx-auto px-6 text-center">
-        <p className="font-mono text-sm text-accent mb-4">
-          // contact
-        </p>
+    <section id="contact" className="relative py-32 sm:py-44 border-t border-border overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute left-1/2 -translate-x-1/2 bottom-[-320px] w-[900px] h-[600px] rounded-full pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(closest-side, color-mix(in oklab, var(--accent) 16%, transparent), transparent 70%)',
+          filter: 'blur(40px)',
+        }}
+      />
 
-        <h2 className="font-display text-3xl sm:text-5xl font-semibold text-text tracking-tight mb-6 max-w-2xl mx-auto">
-          Open to SDE opportunities.
-        </h2>
+      <div className="container-x relative">
+        <Reveal>
+          <p className="eyebrow mb-6">05 — Contact</p>
+          <h2 className="font-display font-semibold tracking-[-0.035em] leading-[0.98] text-5xl sm:text-6xl lg:text-7xl max-w-4xl">
+            Open to SDE roles. <span className="serif-italic text-accent">Let’s talk.</span>
+          </h2>
+        </Reveal>
 
-        <p className="text-text-muted max-w-md mx-auto mb-10 leading-relaxed">
-          Currently open to SDE, Software Engineer, Backend Developer, and
-          Full-Stack Developer opportunities. I’m especially interested in
-          Java and Spring Boot roles where I can build real-world software
-          and grow as an engineer.
-        </p>
+        <Reveal delay={0.1}>
+          <p className="mt-8 text-text-muted text-base sm:text-lg leading-relaxed max-w-xl">
+            Currently open to SDE, Software Engineer, Backend Developer and Full-Stack Developer
+            opportunities. I’m especially interested in Java and Spring Boot roles where I can build
+            real-world software and grow as an engineer.
+          </p>
+        </Reveal>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
-          <Button
-            href={
-              profile.social.email
-                ? `mailto:${profile.social.email}`
-                : '#contact'
-            }
-            icon={<ArrowUpRight size={16} />}
+        <Reveal delay={0.2}>
+          <a
+            href={`mailto:${profile.social.email}`}
+            className="group mt-12 inline-flex items-center gap-3 font-display text-xl sm:text-3xl font-medium tracking-tight"
           >
-            Send an Email
-          </Button>
+            <span className="link-underline">{profile.social.email}</span>
+            <ArrowUpRight
+              className="transition-transform duration-300 ease-[var(--ease-out-expo)] group-hover:translate-x-1 group-hover:-translate-y-1"
+              size={22}
+            />
+          </a>
+        </Reveal>
 
-          <Button
-            href={profile.resumeUrl}
-            variant="outline"
-            external
-          >
-            Resume
+        <Reveal delay={0.3} className="mt-12 flex flex-wrap items-center gap-3">
+          <Button href={profile.resumeUrl} arrow external>
+            Download resume
           </Button>
-        </div>
-
-        <div className="flex items-center justify-center gap-6">
-          {links.map(({ type, label, href, path }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith('http') ? '_blank' : undefined}
-              rel={href.startsWith('http') ? 'noreferrer' : undefined}
-              aria-label={label}
-              className="text-text-muted hover:text-accent transition-colors duration-200"
-            >
-              {type === 'email' ? (
-                <Mail size={18} />
-              ) : type === 'linkedin' ? (
-                <img
-                  src={linkedinIcon}
-                  alt="LinkedIn"
-                  className="w-[18px] h-[18px] object-contain"
-                />
-              ) : (
-                <BrandIcon path={path!} size={18} />
-              )}
-            </a>
-          ))}
-        </div>
+          <SocialLinks className="sm:ml-3" />
+        </Reveal>
       </div>
     </section>
   )

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import type { Technology } from '@/data/technologies'
 
 const iconUrl = (icon: string) =>
@@ -6,26 +5,19 @@ const iconUrl = (icon: string) =>
 
 export function TechBadge({ tech }: { tech: Technology }) {
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.2 }}
-      className="group flex items-center gap-2.5 px-4 py-2.5 rounded-md border border-border bg-surface hover:border-accent transition-colors duration-200"
-    >
+    <span className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-surface px-3.5 py-2 text-sm text-text-muted hover:text-text hover:border-border-strong hover:-translate-y-0.5 transition-all duration-300 ease-[var(--ease-out-expo)]">
       <img
         src={iconUrl(tech.icon)}
         alt=""
-        className="w-4 h-4 object-contain grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
+        width={16}
+        height={16}
+        className="w-4 h-4 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
         loading="lazy"
         onError={(e) => {
           ;(e.target as HTMLImageElement).style.display = 'none'
         }}
       />
-      <span className="text-sm text-text-muted group-hover:text-text transition-colors duration-200">
-        {tech.name}
-      </span>
-    </motion.div>
+      {tech.name}
+    </span>
   )
 }
